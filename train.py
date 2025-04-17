@@ -10,7 +10,6 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.5]*3, std=[0.5]*3)
 ])
-dataset = datasets.ImageFolder(root='./data/Dataset', transform=transform)
 
 
 class Dwarf(nn.Module):
@@ -44,51 +43,53 @@ class Dwarf(nn.Module):
         return x
 
 
-train_size = int(0.8 * len(dataset))
-val_size = len(dataset) - train_size
-train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
+if __name__ == '__main__': 
+    dataset = datasets.ImageFolder(root='./data/Dataset', transform=transform)
+    train_size = int(0.8 * len(dataset))
+    val_size = len(dataset) - train_size
+    train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
 
-train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-model = Dwarf(num_classes=10).to(device)
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    model = Dwarf(num_classes=10).to(device)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
 
-num_epochs = 10
+    num_epochs = 10
 
-for epoch in range(num_epochs):
-    model.train()
-    running_loss = 0.0
-    correct = 0
-    total = 0
+    for epoch in range(num_epochs):
+        model.train()
+        running_loss = 0.0
+        correct = 0
+        total = 0
 
-    for images, labels in train_loader:
-        images, labels = images.to(device), labels.to(device)
+        for images, labels in train_loader:
+            images, labels = images.to(device), labels.to(device)
 
-        # 前向传播
-        outputs = model(images)
-        loss = criterion(outputs, labels)
+            # 前向传播
+            outputs = model(images)
+            loss = criterion(outputs, labels)
 
-        # 反向传播与优化
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+            # 反向传播与优化
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
 
-        # 统计信息
-        running_loss += loss.item() * images.size(0)
-        _, predicted = torch.max(outputs.data, 1)
-        total += labels.size(0)
-        correct += (predicted == labels).sum().item()
+            # 统计信息
+            running_loss += loss.item() * images.size(0)
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
 
-    epoch_loss = running_loss / total
-    epoch_acc = 100 * correct / total
-    print(f"Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss:.4f}, Acc: {epoch_acc:.2f}%")
+        epoch_loss = running_loss / total
+        epoch_acc = 100 * correct / total
+        print(f"Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss:.4f}, Acc: {epoch_acc:.2f}%")
 
-print('Allocated:', round(torch.cuda.memory_allocated(0)/1024**2,1), 'MB')
-print('Reserved: ', round(torch.cuda.memory_reserved(0)/1024**2,1), 'MB')
+    print('Allocated:', round(torch.cuda.memory_allocated(0)/1024**2,1), 'MB')
+    print('Reserved: ', round(torch.cuda.memory_reserved(0)/1024**2,1), 'MB')
 
-torch.save(model.state_dict(), "dwarf.pth")
+    torch.save(model.state_dict(), "dwarf.pth")

@@ -25,13 +25,13 @@ model.to(device)
 while True:
     # 逐帧捕获
     ret, frame = cap.read()
-    cv2.imshow('Camera', frame)
     
     if not ret:
         print("无法接收帧，退出 ...")
         break
 
     resized = cv2.resize(frame, (32, 32))
+    cv2.imshow('Camera', resized)
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     transform = transforms.Compose([
         transforms.Resize((32, 32)),
@@ -50,7 +50,7 @@ while True:
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-    time.sleep(1)
+    time.sleep(0.1)
 
 # 释放资源
 cap.release()
