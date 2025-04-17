@@ -87,4 +87,7 @@ for epoch in range(num_epochs):
     acc = accuracy_score(val_labels, val_preds)
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {running_loss:.4f}, Val Acc: {acc:.4f}")
 
-torch.save(model.state_dict(), "alexnet_asl.pth")
+print('Allocated:', round(torch.cuda.memory_allocated(0)/1024**2,1), 'MB')
+print('Reserved: ', round(torch.cuda.memory_reserved(0)/1024**2,1), 'MB')
+
+#torch.save(model.state_dict(), "alexnet_asl.pth")
