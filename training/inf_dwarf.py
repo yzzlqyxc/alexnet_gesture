@@ -17,7 +17,7 @@ model.to(device)
 transform = transforms.Compose([
     transforms.Resize((32, 32)),
     transforms.ToTensor(),
-    transforms.Normalize([0.5]*3, [0.5]*3)
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
 def inf_fromtenser(img):
@@ -78,7 +78,5 @@ for i in range(0, 10):
         # print(file, pic_inf(file))
         if a == i :
             cnt += 1
-        elif a == 5:
-            cntb += 1
         total += 1
-    print(f"{i} accuray: {cnt/total}, {total} {cntb}")
+    print(f"{i} accuray: {cnt/total}, {total} {cnt}")

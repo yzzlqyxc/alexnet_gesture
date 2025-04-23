@@ -7,6 +7,7 @@ wheels/
 *.egg-info
 *.pth
 *.o
+*.jpg
 
 # Virtual environments
 .venv

@@ -46,11 +46,11 @@ while True:
     with torch.no_grad():
         outputs = model(input_tensor.to(device))
         predicted_class = outputs.argmax(dim=1).item()
-        print(predicted_class)
+        print(chr(predicted_class+ord('A')))
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-    time.sleep(1)
+    time.sleep(0.5)
 
 # 释放资源
 cap.release()
