@@ -6,6 +6,7 @@ dist/
 wheels/
 *.egg-info
 *.pth
+*.o
 
 # Virtual environments
 .venv

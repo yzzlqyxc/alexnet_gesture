@@ -48,8 +48,8 @@ def camera_inf():
 
         resized = cv2.resize(frame, (32, 32))
         cv2.imshow('Camera', resized)
-        # rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        print(inf_fromtenser(resized))
+        rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        print(inf_fromtenser(rgb))
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -69,16 +69,16 @@ def pic_inf(pic_dir : str):
 
 camera_inf()
 
-# for i in range(0, 10):
-#     a = './data/Dataset/' + str(i)
-#     path = Path(a)
-#     cnt, cntb, total = 0, 0, 0
-#     for file in path.rglob('*'):  # rglob() 用于递归查找所有文件和子文件夹
-#         a = pic_inf(file)
-#         # print(file, pic_inf(file))
-#         if a == i :
-#             cnt += 1
-#         elif a == 5:
-#             cntb += 1
-#         total += 1
-#     print(f"{i} accuray: {cnt/total}, {total} {cntb}")
+for i in range(0, 10):
+    a = './data/Dataset/' + str(i)
+    path = Path(a)
+    cnt, cntb, total = 0, 0, 0
+    for file in path.rglob('*'):  # rglob() 用于递归查找所有文件和子文件夹
+        a = pic_inf(file)
+        # print(file, pic_inf(file))
+        if a == i :
+            cnt += 1
+        elif a == 5:
+            cntb += 1
+        total += 1
+    print(f"{i} accuray: {cnt/total}, {total} {cntb}")
