@@ -16,9 +16,7 @@ transform = transforms.Compose([
 checkpoint = torch.load("dwarf.pth")
 state_dict = checkpoint['state_dict'] if 'state_dict' in checkpoint else checkpoint
 
-#print(model.named_parameters())
 with open("weights.txt", "w") as f:
-
     for name, param in model.named_parameters():
         cnt = 0
         for i in param.shape:
@@ -29,5 +27,3 @@ with open("weights.txt", "w") as f:
             f.write(f"{i.item():.10f} ")
             cnt += 1
         f.write('\n');
-
-

@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -O2
 
-SRCS = main.c network.c
+SRCS = main.c network.c get_jgp.c
 OBJS = $(SRCS:.c=.o)
 TARGET = main
 
@@ -10,7 +10,7 @@ all: $(TARGET)
 
 # Link object files to create the final executable
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -ljpeg  -o $@ $^
 
 # Compile .c files to .o
 %.o: %.c
